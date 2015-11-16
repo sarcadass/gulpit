@@ -19,10 +19,11 @@ var taskUglify = function(mode, activeProfile, activeConf) {
 					   activeConf.tasks.sourcemaps.activate;
 	var isBrowserify = activeConf.tasks.browserify !== undefined &&
 					   activeConf.tasks.browserify.activate;
-	var isConcat = !isBrowserify && activeConf.tasks.uglify.options.concat === true;
+	var isConcat = !isBrowserify && options !== undefined && options.concat;
 	var uglifyOptions = {
-		mangle: options.mangle,
-		preserveComments: options.keepComments === true ? 'all' : false
+		mangle: options !== undefined && options.mangle !== undefined ? options.mangle : true,
+		preserveComments: options !== undefined && options.keepComments !== undefined &&
+						  options.keepComments === true ? 'all' : false
 	};
 
 	function build() {

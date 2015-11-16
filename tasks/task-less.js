@@ -21,6 +21,12 @@ var taskLess = function(mode, activeProfile, activeConf) {
 	var isAutoprefixer = activeConf.tasks.autoprefixer !== undefined &&
 						 activeConf.tasks.autoprefixer.activate;
 	var isSpecificFile = pathController.isSpecificFile(activeConf.sourceFolder);
+	var isCompressed = activeConf.tasks.less.options !== undefined &&
+					   activeConf.tasks.less.options.compress !== undefined &&
+					   activeConf.tasks.less.options.compress;
+	var isAutoprefixerBrowsers = activeConf.tasks.autoprefixer.options !== undefined &&
+								 activeConf.tasks.autoprefixer.options.browsers !== undefined ?
+								 activeConf.tasks.autoprefixer.options.browsers : ['last 2 versions'];
 
 	function build() {
 		return gulp.src(activeConf.sourceFolder)
@@ -29,10 +35,10 @@ var taskLess = function(mode, activeProfile, activeConf) {
 			.pipe(duration('Less task'))
 			.pipe(gulpif(isSourcemaps, sourcemaps.init({loadMaps: true})))
 			.pipe(
-				less({ compress: activeConf.tasks.less.options.compress !== undefined && activeConf.tasks.less.options.compress })
+				less({ compress: isCompressed })
 				.on('error', notify.onError('Error on Less compilation'))
 			)
-			.pipe(gulpif(isAutoprefixer, postcss([autoprefixer({browsers: activeConf.tasks.autoprefixer.browsers})])))
+			.pipe(gulpif(isAutoprefixer, postcss([autoprefixer({browsers: isAutoprefixerBrowsers})])))
 			.pipe(gulpif(isSpecificFile, rename(activeConf.exitFileName)))
 			.pipe(gulpif(isSourcemaps, sourcemaps.write('./')))
 			.pipe(gulp.dest(activeConf.exitFolder));
