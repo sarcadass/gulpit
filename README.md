@@ -8,8 +8,8 @@ You will find a sample below.
 ### How do I get set up? ###
 
 - Install the package with NPM: `npm install --global gulpit`
-- Create a 'gulpit-conf.js' file in the root of your project.
-- CD to your project root folder then run: `gulpit`
+- **Create a 'gulpit-conf.js'** file in the root of your project
+- `cd` where the 'gulpit-conf.js' is then run: `gulpit`
 
 
 ### How do I use the CLI? ###
@@ -22,11 +22,11 @@ You have two main command when you are in the gulpit app:
 
 You have extra options like:
 
-- `build --css` -> will only build css
-- `build --prod` -> will build with the prod profile*
+- `build --css`: will only build css
+- `build --prod`: will build with the prod profile*
 
 You can combine:
-`build --js --prod` -> will only build js with the prod profile*
+`build --js --prod`: will only build js with the prod profile*
 
 *Prod profile: will override the default options.
 
@@ -49,49 +49,52 @@ You can combine:
 
 ### Sample 'gulpit-conf.js' ###
 
-Here an example of a specific config if you use only browserify (with sourcemaps) and sass (with sourcemaps and autoprefixer) with no prod profile:
+Here is an example of a specific config if you use browserify (with sourcemaps) and sass (with sourcemaps and autoprefixer):
 
-```javascript
-
-	module.exports = {
-		projectName: 'test-project',
-		profiles: {
-			default: {
-				js: {
-					sourceFolder: 'dev/js/browserify/index.js',
-					exitFolder: 'build/js/',
-					exitFileName: 'script.js',
-					tasks: {
-						browserify: {
-							activate: true
+```js
+module.exports = {
+	projectName: 'test-project',
+	profiles: {
+		default: {
+			js: {
+				sourceFolder: 'dev/js/browserify/index.js',
+				exitFolder: 'build/js/',
+				exitFileName: 'app.js',
+				tasks: {
+					browserify: { activate: true },
+					sourcemaps: { activate: true }
+				}
+			},
+			css: {
+				sourceFolder: 'dev/css/sass/index.scss',
+				exitFolder: 'build/css/',
+				exitFileName: 'style.css',
+				tasks: {
+					sass: {
+						activate: true,
+						options: {
+							outputStyle: 'nested'
 						}
-					}
-				},
-				css: {
-					sourceFolder: 'dev/css/sass/index.scss',
-					exitFolder: 'build/css/',
-					exitFileName: 'style.css',
-					tasks: {
-						sass: {
-							activate: true,
-							options: {
-								outputStyle: 'nested'
-							}
-						},
-						autoprefixer: {
-							activate: true,
-							options: {
-								browsers: ['last 2 versions']
-							}
-						},
-						sourcemaps: {
-							activate: true
+					},
+					autoprefixer: {
+						activate: true,
+						options: {
+							browsers: ['last 2 versions']
 						}
-					}
+					},
+					sourcemaps: { activate: true }
 				}
 			}
+		},
+		
+		// Optional prod profile to disable sourcemaps
+		// when you use '--prod' argument in the CLI
+		prod: {
+			js: { sourcemaps: { activate: false } },
+			css: { sourcemaps: { activate: false } }
 		}
-	};
+	}
+};
 ```
 
 You can find the **complete sample conf with all the tasks available** in the test folder of this repo.
