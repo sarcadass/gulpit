@@ -1,5 +1,4 @@
 # Gulpit #
-
 Gulpit is an **easy and fast configurable task library** built around [Gulp](https://github.com/gulpjs/gulp) useable with a CLI.
 You just have to configure the 'gulpit-conf.js' file (< 2min).
 You will find a sample below.
@@ -107,3 +106,5 @@ You can find the **complete sample conf with all the tasks available** in the te
 - If you use both Browserify and Uglify, the **uglify.options.concat** options will be ignored as browserify already concat all the files
 
 - File will be renamed after build only if you indicate a specific file for **sourceFolder**
+
+![alt text](http://i.imgur.com/zm111ns.gif "Gulpit")

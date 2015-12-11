@@ -20,8 +20,7 @@ var taskBrowserify = function(mode, activeProfile, activeConf) {
 					   activeConf.tasks.sourcemaps.activate;
 	var isUglify = activeConf.tasks.uglify !== undefined &&
 				   activeConf.tasks.uglify.activate;
-	var uglifyOptions;
-	var b;
+	var uglifyOptions, b, isMangle, isKeepComments, isUglifyOptions;
 	var browserifyOptions = assign({}, watchify.args, {
 		entries: activeConf.sourceFolder,
 		debug: isSourcemaps
@@ -29,9 +28,16 @@ var taskBrowserify = function(mode, activeProfile, activeConf) {
 
 	// If uglify is activated too, populate the options
 	if (isUglify && activeConf.tasks.uglify.activate) {
+		isUglifyOptions = activeConf.tasks.uglify.options !== undefined;
+		isMangle = isUglifyOptions &&
+				   activeConf.tasks.uglify.options.mangle !== undefined &&
+				   activeConf.tasks.uglify.options.mangle;
+		isKeepComments = isUglifyOptions &&
+						 activeConf.tasks.uglify.options.keepComments !== undefined &&
+						 activeConf.tasks.uglify.options.keepComments;
 		uglifyOptions = {
-			mangle: activeConf.tasks.uglify.options.mangle,
-			preserveComments: activeConf.tasks.uglify.options.keepComments === true ? 'all' : false
+			mangle: isMangle,
+			preserveComments: isKeepComments ? 'all' : false
 		}
 	}
 
@@ -58,7 +64,6 @@ var taskBrowserify = function(mode, activeProfile, activeConf) {
 			.pipe(gulpif(isUglify, uglify(uglifyOptions)))
 			.pipe(gulpif(isSourcemaps, sourcemaps.write('./')))
 			.pipe(gulp.dest(activeConf.exitFolder))
-			//.pipe(filesize())
 			.pipe(plumber.stop())
 	}
 
