@@ -107,4 +107,6 @@ You can find the **complete sample conf with all the tasks available** in the te
 
 - File will be renamed after build only if you indicate a specific file for **sourceFolder**
 
+- You can the use **prod** profile by setting your *NODE_ENV* to "prod" instead of using the `--prod` option.
+
 ![alt text](http://i.imgur.com/zm111ns.gif "Gulpit")

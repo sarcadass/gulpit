@@ -1,6 +1,6 @@
 {
   "name": "gulpit",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Gulpit is an easy and fast configurable task library built around Gulp useable with a CLI",
   "main": "cli.js",
   "repository": {
