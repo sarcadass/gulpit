@@ -5,6 +5,7 @@ var vorpal = require('vorpal')(),
 	taskManager = require('./lib/task-manager.js'),
 	configController = require('./lib/config-controller.js'),
 	profileManager = require('./lib/profile-manager.js'),
+	configGenerator = require('./lib/config-generator.js'),
 	chalk = require('chalk');
 
 var cli = {
@@ -13,6 +14,13 @@ var cli = {
 		var projectName = conf !== false ? chalk.green('~' + conf.projectName) : '';
 		var missingConfMsg = "You should have a 'gulpit-conf.js' file in this directory!" +
 							 "\nEnding process.";
+
+		// Generate config command
+		vorpal
+			.command('init', 'Generate a config file through the CLI.')
+			.action(function() {
+				configGenerator.init();
+			});
 
 		// Watch Command
 		vorpal
